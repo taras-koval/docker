@@ -1,20 +1,12 @@
 version: '3.9'
 services:
     php:
-        image: php:8.1-fpm
+        build: ./docker/php
         container_name: php
         volumes:
             - ./public:/var/www/html
-            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
-#        environment:
-#            - DB_CONNECTION=pgsql
-#            - DB_HOST=postgres
-#            - DB_PORT=5432
-#            - DB_DATABASE=test
-#            - DB_USERNAME=postgres
-#            - DB_PASSWORD=1111
-        env_file:
-            - .env
+#        env_file:
+#            - .env
         networks:
             - app-network
     
@@ -35,10 +27,10 @@ services:
         image: mysql:5.7
         container_name: mysql
         environment:
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: 1111
+            MYSQL_DATABASE: test
         ports:
-            - "33060:3306"
+            - "3307:3306"
         volumes:
             - ./docker/mysql/data:/var/lib/mysql
             - ./docker/mysql/local.cnf:/etc/mysql/conf.d/local.cnf
@@ -59,15 +51,15 @@ services:
 #        networks:
 #            - app-network
     
-    redis:
-        image: redis:latest
-        container_name: redis
-        ports:
-            - "63790:6379"
-        volumes:
-            - ./docker/redis-data:/data
-        networks:
-            - app-network
+#    redis:
+#        image: redis:latest
+#        container_name: redis
+#        ports:
+#            - "6379:6379"
+#        volumes:
+#            - ./docker/redis-data:/data
+#        networks:
+#            - app-network
 
 networks:
     app-network:
